@@ -1,0 +1,42 @@
+{
+    "tableNames": ["Ores", "Planetary Industry"],
+    "Ores": [
+        "Veldspar",
+        "Plagioclase",
+        "Scordite",
+        "Omber",
+        "Pyroxeres",
+        "Kernite",
+        "Dark Ochre",
+        "Gneiss",
+        "Spodumain",
+        "Hemorphite",
+        "Hedbergite",
+        "Jaspet",
+        "Crokite",
+        "Bistot",
+        "Arkonor",
+        "Mercoxit"
+    ],
+    "Planetary Industry": [
+        "Lustering Alloy",
+        "Sheen Compound",
+        "Gleaming Alloy",
+        "Condensed Alloy",
+        "Precious Alloy",
+        "Motley Compound",
+        "Fiber Composite",
+        "Lucent Compound",
+        "Opulent Compound",
+        "Glossy Compound",
+        "Crystal Compound",
+        "Dark Compound",
+        "Base Metals",
+        "Heavy Metals",
+        "Reactive Metals",
+        "Noble Metals",
+        "Toxic Metals",
+        "Reactive Gas",
+        "Noble Gas"
+    ]
+}
