@@ -38,14 +38,21 @@ class DataTable extends React.Component {
         super(props)
         this.state = {
             resourceType: this.props.resourceType,
-            rows: this.props.rowsData
+            itemNames: ["item1", "item2"],
         }
+    }
+
+    drawRows() {
+      console.log(this.state.itemNames)
+      return this.state.itemNames.map((itemName) => {
+        <TableRow><TableCell>{itemName}</TableCell></TableRow>
+      })
     }
 
     render() {
         return (
             <div className="dataTableContainer">
-                <TableContainer component={Paper} elevation ={2}>
+                <TableContainer component={Paper} elevation={2}>
                     <Table aria-label="customized table">
                         <TableHead>
                             <TableRow>
@@ -55,16 +62,17 @@ class DataTable extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {this.state.rows.map((row) => (
-                            <GraphRow key={row.item_name} rowData={row}></GraphRow>
-                        ))}
+                          {this.drawRows()}
                         </TableBody>
                     </Table>
                 </TableContainer>
             </div>
         )
     }
-
 }
 
 export default DataTable
+
+/*
+<GraphRow key={itemName} itemName={itemName}></GraphRow>
+*/
