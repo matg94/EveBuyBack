@@ -100,12 +100,12 @@ class GraphRow extends React.Component {
         var max = 0;
         var min = 1000000;
         var time = new Date().valueOf()/1000
-        for (i=1;i<30;i++) { 
+        for (i=90;i>0;i--) { 
             var startTime = (time) - (86400*i);
             var endTime = time - (86400*(i-1));
             var avg = this.getVolumeBasedAverage(itemData, startTime, endTime);
             if (avg === 1) continue;
-            plotData.push({x:i, y:avg})
+            plotData.push({x:-i, y:avg})
             if (avg > max) {
                 max = avg;
             }
@@ -114,11 +114,11 @@ class GraphRow extends React.Component {
             }
         }
         this.setState({
-            graphData: plotData,
             min: min,
             max: max,
             graphLoaded: true
         })
+        return plotData
     }
 
     render() {

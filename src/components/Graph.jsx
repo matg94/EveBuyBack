@@ -1,4 +1,4 @@
-import {Background, VictoryChart, VictoryLine, VictoryTheme, VictoryAxis, VictoryGroup} from 'victory'
+import {Background, VictoryChart, VictoryLine, VictoryTheme, VictoryAxis, VictoryGroup, VictoryLabel} from 'victory'
 import React from 'react'
 
 
@@ -17,7 +17,6 @@ class Graph extends React.Component {
         return (
             <VictoryGroup>
                 <VictoryLine 
-                    interpolation="natural"
                     height={250}
                     width={250}
                     data={this.state.graphData}
@@ -27,11 +26,13 @@ class Graph extends React.Component {
                         tickLabels: {fontSize: 4, padding: 5}
                     }}
                     theme={VictoryTheme.material}
-                    domain={[0, 30]}
+                    domain={[-90, 0]}
                     fontSize={1}
                     domainPadding={{x: [10, -10], y: 5}}
                     height={250}
-                    width={250} 
+                    width={250}
+                    label="Days from today"
+                    axisLabelComponent={<VictoryLabel dy={8} />}
                 />
                 <VictoryAxis dependentAxis
                     style={{

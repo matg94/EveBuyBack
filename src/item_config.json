@@ -1,5 +1,5 @@
 {
-    "tableNames": ["Ores", "Planetary Industry"],
+    "tableNames": ["Ores", "Planetary Industry", "Structure", "Minerals", "Datacores", "Fuels"],
     "Ores": [
         "Veldspar",
         "Plagioclase",
@@ -38,5 +38,45 @@
         "Toxic Metals",
         "Reactive Gas",
         "Noble Gas"
+    ],
+    "Structure": [
+        "Industrial Fibers",
+        "Supertensile Plastics",
+        "Polyaramids",
+        "Coolant",
+        "Condensates",
+        "Construction Blocks",
+        "Nanites",
+        "Silicate Glass",
+        "Smartfab Units"
+    ],
+    "Minerals": [
+        "Tritanium",
+        "Pyerite",
+        "Mexallon",
+        "Isogen",
+        "Nocxium",
+        "Zydrine",
+        "Megacyte",
+        "Morphite"
+    ],
+    "Datacores": [
+        "Datacore - Amarrian Starship Engineering",
+        "Datacore - Electromagnetic Physics",
+        "Datacore - Gallentean Starship Engineering",
+        "Datacore - High Energy Physics",
+        "Datacore - Rocket Science",
+        "Datacore - Mechanical Engineering",
+        "Datacore - Laser Physics",
+        "Datacore - Caldari Starship Engineering",
+        "Datacore - Minmatar Starship Engineering"
+    ],
+    "Fuels": [
+        "Heavy Water",
+        "Suspended Plasma",
+        "Liquid Ozone",
+        "Ionic Solutions",
+        "Oxygen Isotopes",
+        "Plasmoids"
     ]
 }

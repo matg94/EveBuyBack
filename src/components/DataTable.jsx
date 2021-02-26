@@ -49,7 +49,7 @@ class DataTable extends React.Component {
                     <Table aria-label="customized table">
                         <TableHead>
                             <TableRow>
-                                <StyledTableCell></StyledTableCell>
+                                <StyledTableCell align="left"></StyledTableCell>
                                 <StyledTableCell align="left">{this.state.resourceType}</StyledTableCell>
                                 <StyledTableCell align="right">Price (ISK)</StyledTableCell>
                             </TableRow>
