@@ -37,28 +37,29 @@ class GraphRow extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            key: this.props.key,
             itemName: this.props.itemName,
             itemPrice: 0,
+            itemIds: itemIds,
             isLoaded: false,
-            open: false
+            open: false,
         }
     }
 
     componentDidMount() {
+        var time = new Date().valueOf() / 1000
         fetch("https://api.eve-echoes-market.com/market-stats/".concat(this.state.itemIds[this.state.itemName]))
             .then(res => res.json())
             .then((data) => this.setState({
-                itemPrice: this.getVolumeBasedAverage(data)
+                itemAllData: data,
+                itemPrice: this.getVolumeBasedAverage(data, time-86400, time),
+                graphData: this.fetchGraphData(data)
             }))
             .then(() => this.setState({
-                isLoaded: true
+                isLoaded: true,
             }))
     }
 
-      test(itemData) {
-        var time = new Date()
-        time = time.now
+      getVolumeBasedAverage(itemData, startTime, endTime) {
         var average=0
         var totalVolume = 0
         itemData.filter(
@@ -66,41 +67,58 @@ class GraphRow extends React.Component {
                 if (entry["volume"] == "null") {
                     return false;
                 }
-                return true;
+                if (parseInt(entry["time"]) > startTime && parseInt(entry["time"]) < endTime) {
+                    return true
+                }
             })
-        .map((entry) => {
-            totalVolume += parseInt(entry["volume"])
-        })
+        .map((entry) => 
+            totalVolume += entry["volume"]
+        )
         itemData.filter(
             function(entry) {
-                if (entry["volume"] == "null") {
+                if (entry["volume"] == "null" || entry["volume"] < 1) {
                     return false;
                 }
-                return true;
+                if (parseInt(entry["time"]) > startTime && parseInt(entry["time"]) < endTime) {
+                    return true
+                }
             })
         .map((entry) => {
             var percentVolume = parseInt(entry["volume"]) / totalVolume
-            average += parseInt(entry["buy"])*percentVolume
+            average = average + (entry["buy"]*percentVolume)
+            average = Math.floor(average)
         })
-        if (average < 1) {
+        if (average < 1 || isNaN(average)) {
             return 1
         }
         return average
     }
 
-    getVolumeBasedAverage(data) {
-        return 1;
-    }
-
-    fetchGraphData() {
-        var data = [
-            { x: 1, y: 2 },
-            { x: 2, y: 3 },
-            { x: 3, y: 5 },
-            { x: 4, y: 4 },
-            { x: 5, y: 7 }
-        ]
-        return data
+    fetchGraphData(itemData) {
+        var i;
+        var plotData = [];
+        var max = 0;
+        var min = 1000000;
+        var time = new Date().valueOf()/1000
+        for (i=1;i<30;i++) { 
+            var startTime = (time) - (86400*i);
+            var endTime = time - (86400*(i-1));
+            var avg = this.getVolumeBasedAverage(itemData, startTime, endTime);
+            if (avg === 1) continue;
+            plotData.push({x:i, y:avg})
+            if (avg > max) {
+                max = avg;
+            }
+            if (avg < min) {
+                min = avg;
+            }
+        }
+        this.setState({
+            graphData: plotData,
+            min: min,
+            max: max,
+            graphLoaded: true
+        })
     }
 
     render() {
@@ -122,10 +140,10 @@ class GraphRow extends React.Component {
                         <Collapse in={this.state.open} timeout="auto" unmountOnExit>
                             <Graph
                                 startTime={0}
-                                currentTime={13000}
-                                min={309}
-                                max={410}
-                                data={this.fetchGraphData()}
+                                currentTime={30}
+                                min={this.state.min}
+                                max={this.state.max}
+                                data={this.state.graphData}
                             ></Graph>
                         </Collapse>
                     </StyledTableCell>
