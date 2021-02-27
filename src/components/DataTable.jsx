@@ -38,7 +38,8 @@ class DataTable extends React.Component {
         super(props)
         this.state = {
             resourceType: this.props.resourceType,
-            itemNames: this.props.itemNames
+            itemNames: this.props.itemNames,
+            currentDate: this.props.updateDate
         }
     }
 
@@ -56,7 +57,7 @@ class DataTable extends React.Component {
                         </TableHead>
                         <TableBody>
                           {this.state.itemNames.map((name) => 
-                            <GraphRow key={name} itemName={name}></GraphRow>
+                            <GraphRow key={name} itemName={name} date={this.state.currentDate}></GraphRow>
                           )}
                         </TableBody>
                     </Table>

@@ -42,11 +42,12 @@ class GraphRow extends React.Component {
             itemIds: itemIds,
             isLoaded: false,
             open: false,
+            date: this.props.date
         }
     }
 
     componentDidMount() {
-        var time = new Date().valueOf() / 1000
+        var time =this.state.date.valueOf() / 1000
         fetch("https://api.eve-echoes-market.com/market-stats/".concat(this.state.itemIds[this.state.itemName]))
             .then(res => res.json())
             .then((data) => this.setState({
@@ -98,23 +99,20 @@ class GraphRow extends React.Component {
         var i;
         var plotData = [];
         var max = 0;
-        var min = 1000000;
-        var time = new Date().valueOf()/1000
+        var time = this.state.date.valueOf()/1000
         for (i=90;i>0;i--) { 
             var startTime = (time) - (86400*i);
             var endTime = time - (86400*(i-1));
             var avg = this.getVolumeBasedAverage(itemData, startTime, endTime);
             if (avg === 1) continue;
-            plotData.push({x:-i, y:avg})
+            var date = new Date()
+            date.setDate(date.getDate() - i)
+            plotData.push({x:date, y:avg})
             if (avg > max) {
                 max = avg;
             }
-            if (avg < min) {
-                min = avg;
-            }
         }
         this.setState({
-            min: min,
             max: max,
             graphLoaded: true
         })
@@ -141,7 +139,6 @@ class GraphRow extends React.Component {
                             <Graph
                                 startTime={0}
                                 currentTime={30}
-                                min={this.state.min}
                                 max={this.state.max}
                                 data={this.state.graphData}
                             ></Graph>

@@ -8,7 +8,6 @@ class Graph extends React.Component {
         super(props);
         this.state = {
             graphData: this.props.data,
-            min: this.props.min,
             max: this.props.max
         }
     }
@@ -26,24 +25,30 @@ class Graph extends React.Component {
                         tickLabels: {fontSize: 4, padding: 5}
                     }}
                     theme={VictoryTheme.material}
-                    domain={[-90, 0]}
                     fontSize={1}
-                    domainPadding={{x: [10, -10], y: 5}}
+                    scale={{ x: "time" }}
+                    tickFormat={(t, i) => {
+                        const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(t);
+                        const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(t);
+                        return (`${da}-${mo}`);
+                    }}
                     height={250}
                     width={250}
                     label="Days from today"
                     axisLabelComponent={<VictoryLabel dy={8} />}
+                    fixLabelOverlap={true}
                 />
                 <VictoryAxis dependentAxis
                     style={{
                         tickLabels: {fontSize: 4, padding: 5}
                     }}
                     theme={VictoryTheme.material}
-                    domain={[this.state.min - 10, this.state.max + 10]}
+                    domain={[0, this.state.max + 10]}
                     fontSize={1}
                     domainPadding={{x: [10, -10], y: 5}}
                     height={250}
                     width={250} 
+                    fixLabelOverlap={true}
                 />
             </VictoryGroup>
         )
