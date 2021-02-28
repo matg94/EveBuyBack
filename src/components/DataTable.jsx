@@ -39,7 +39,9 @@ class DataTable extends React.Component {
         this.state = {
             resourceType: this.props.resourceType,
             itemNames: this.props.itemNames,
-            currentDate: this.props.updateDate
+            currentDate: this.props.updateDate,
+            priceData: [],
+            addItemFunction: this.props.addItemFunction
         }
     }
 
@@ -57,7 +59,7 @@ class DataTable extends React.Component {
                         </TableHead>
                         <TableBody>
                           {this.state.itemNames.map((name) => 
-                            <GraphRow key={name} itemName={name} date={this.state.currentDate}></GraphRow>
+                            <GraphRow key={name} addItemFunction={this.addItemFunction.bind(this)} itemName={name} date={this.state.currentDate}></GraphRow>
                           )}
                         </TableBody>
                     </Table>

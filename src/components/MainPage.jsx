@@ -3,12 +3,14 @@ import React from 'react'
 import DataTable from './DataTable.jsx'
 import '../styles/DataTable.css'
 import myData from '../BuyBackData.json'
+import Calculator from './Calculator.jsx'
 
 class MainPage extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            priceData: [],
             isLoaded: false
         }
     }
@@ -25,7 +27,12 @@ class MainPage extends React.Component {
 
     createTable(tableName) {
         return (
-           <DataTable key={tableName} resourceType={tableName} itemNames={this.state.itemConfig[tableName]} updateDate={this.state.updateDate}></DataTable>
+           <DataTable 
+                key={tableName} 
+                resourceType={tableName} 
+                itemNames={this.state.itemConfig[tableName]} 
+                updateDate={this.state.updateDate}>
+            </DataTable>
             )
     }
 
@@ -42,9 +49,7 @@ class MainPage extends React.Component {
                 <h1>Buy Back Program</h1>
                 <br></br>
                 <h3>Last update: {this.getFormattedDate()}</h3>
-                <div className="multipleTablesContainer">
-                    {this.state.isLoaded ? this.state.tableNames.map((tableName) => this.createTable(tableName)) : <p>Loading...</p>}
-                </div>
+                <Calculator date={this.state.updateDate}></Calculator>
                 <br></br>
         </div>
         )
@@ -52,3 +57,7 @@ class MainPage extends React.Component {
 }
 
 export default MainPage
+
+//                <div className="multipleTablesContainer">
+//{this.state.isLoaded ? this.state.tableNames.map((tableName) => this.createTable(tableName)) : <p>Loading...</p>}
+//</div>

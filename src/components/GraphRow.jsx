@@ -42,7 +42,7 @@ class GraphRow extends React.Component {
             itemIds: itemIds,
             isLoaded: false,
             open: false,
-            date: this.props.date
+            date: this.props.date,
         }
     }
 
@@ -134,7 +134,7 @@ class GraphRow extends React.Component {
                     <StyledTableCell align="right">{this.state.isLoaded ? this.state.itemPrice : "Loading..."}</StyledTableCell>
                 </TableRow>
                 <TableRow>
-                    <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                    <StyledTableCell style={{ paddingBottom: 1, paddingTop: 1 }} colSpan={3}>
                         <Collapse in={this.state.open} timeout="auto" unmountOnExit>
                             <Graph
                                 startTime={0}
