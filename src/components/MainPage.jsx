@@ -1,9 +1,13 @@
-import {Paper, Switch} from '@material-ui/core'
 import React from 'react'
 import DataTable from './DataTable.jsx'
 import '../styles/DataTable.css'
-import myData from '../BuyBackData.json'
-import Calculator from './Calculator.jsx'
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Calculator from './Calculator.jsx';
+import Paper from '@material-ui/core/Paper';
+
 
 class MainPage extends React.Component {
 
@@ -11,9 +15,16 @@ class MainPage extends React.Component {
         super(props);
         this.state = {
             priceData: [],
-            isLoaded: false
+            isLoaded: false,
+            currentTab: 0,
         }
     }
+
+    handleChange = (event, newValue) => {
+        this.setState({
+            currentTab: newValue
+        })
+      };
 
     async componentDidMount() {
         let conf = require('../item_config.json')
@@ -23,6 +34,21 @@ class MainPage extends React.Component {
             isLoaded: true,
             updateDate: new Date().setHours(0, 0, 0, 0)
         })
+    }
+
+    showPage() {
+        switch (this.state.currentTab) {
+            case 0:
+                return <Calculator date={this.state.updateDate}></Calculator>
+            case 1:
+                return (<div className="multipleTablesContainer">
+                    {       this.state.isLoaded ? this.state.tableNames.map((tableName) => this.createTable(tableName)) : <p>Loading...</p>}
+                        </div>)
+            case 2:
+                return <h1>About</h1>
+            default:
+                return <p>?????</p>
+        }
     }
 
     createTable(tableName) {
@@ -46,12 +72,17 @@ class MainPage extends React.Component {
     render() {
         return (
             <div>
-                <h1>Buy Back Program</h1>
-                <br></br>
-                <h3>Last update: {this.getFormattedDate()}</h3>
-                <Calculator date={this.state.updateDate}></Calculator>
-                <br></br>
-        </div>
+                <AppBar position="static">
+                    <Tabs value={this.state.currentTab} onChange={this.handleChange.bind(this)} aria-label="simple tabs example">
+                        <Tab label="Calculator" />
+                        <Tab label="Data" />
+                        <Tab label="About" />
+                    </Tabs>
+                </AppBar>
+                <Paper elevation={1}>
+                    {this.showPage()}
+                </Paper>
+            </div>
         )
     }
 }

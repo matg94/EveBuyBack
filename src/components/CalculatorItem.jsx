@@ -1,9 +1,6 @@
 import React from 'react'
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-
 
 class CalculatorItem extends React.Component {
 
@@ -19,17 +16,20 @@ class CalculatorItem extends React.Component {
     render() {
         return (
             <TableRow>
-                <TableCell>
+                <TableCell align="left">
                     {this.state.name}
                 </TableCell>
-                <TableCell>
-                    {this.props.volume}
+                <TableCell align="center">
+                    {this.props.volume.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </TableCell>
+                <TableCell align="center">
+                    {this.state.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </TableCell>
                 <TableCell>
-                    {this.state.price}
+
                 </TableCell>
-                <TableCell>
-                    {this.state.volume * this.state.price}
+                <TableCell align="right">
+                    {(this.props.volume * this.state.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </TableCell>
             </TableRow>
         )

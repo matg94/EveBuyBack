@@ -2,7 +2,6 @@ import React from 'react'
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import Collapse from '@material-ui/core/Collapse';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,10 +10,29 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
 import CalculatorItem from './CalculatorItem.jsx';
-import '../styles/DataTable.css'
 import itemIds from '../item_ids.json'
+import { withStyles } from '@material-ui/core/styles';
+
+
+const StyledTableCell = withStyles((theme) => ({
+    head: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    body: {
+      fontSize: 14,
+    },
+  }))(TableCell);
+  
+const StyledTableRow = withStyles((theme) => ({
+root: {
+    '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+    },
+},
+}))(TableRow);
+
 
 
 class Calculator extends React.Component {
@@ -136,9 +154,7 @@ class Calculator extends React.Component {
         this.state.allItems.map((item) => {
             total += item.price * item.volume
         })
-        this.setState({
-            currentTotal: total
-        })
+        return total
     }
 
 
@@ -161,11 +177,13 @@ class Calculator extends React.Component {
             <TableContainer component={Paper} elevation={2}>
                 <Table aria-label="customized table">
                     <TableHead>
-                        <TableRow>
-                            <TableCell align="left">Item Name</TableCell>
-                            <TableCell align="center">Volume</TableCell>
-                            <TableCell align="right">Price (ISK)</TableCell>
-                        </TableRow>
+                        <StyledTableRow>
+                            <StyledTableCell align="left">Item Name</StyledTableCell>
+                            <StyledTableCell align="center">Volume</StyledTableCell>
+                            <StyledTableCell align="center">Item Price (ISK)</StyledTableCell>
+                            <StyledTableCell align="right"></StyledTableCell>
+                            <StyledTableCell align="right">Total Price (ISK)</StyledTableCell>
+                        </StyledTableRow>
                     </TableHead>
                     <TableBody>
                         {this.state.allItems.map((itemData) => 
@@ -177,7 +195,19 @@ class Calculator extends React.Component {
                                 updateDate={this.state.date}></CalculatorItem>    
                         )}
                         <TableRow>
-                            <TableCell align="left">
+                                <StyledTableCell colSpan={4} align="left">
+                                    <h3>
+                                        Total:
+                                    </h3>
+                                </StyledTableCell>
+                                <StyledTableCell align="right">
+                                    <h3>
+                                    {this.calculateTotal().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                    </h3>
+                                </StyledTableCell>
+                        </TableRow>
+                        <TableRow>
+                            <StyledTableCell align="left">
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
@@ -188,8 +218,8 @@ class Calculator extends React.Component {
                                         return <MenuItem key={name} value={name}>{name}</MenuItem>
                                     }) : <MenuItem value="">No Type Selected</MenuItem>}
                                 </Select>
-                            </TableCell>
-                            <TableCell>
+                            </StyledTableCell>
+                            <StyledTableCell>
                                 <Select
                                     labelId="select-item"
                                     id="select-item-id"
@@ -200,8 +230,8 @@ class Calculator extends React.Component {
                                         return <MenuItem key={name} value={name}>{name}</MenuItem>
                                     }) : <MenuItem value="">No Type Selected</MenuItem>}
                                 </Select>
-                            </TableCell>
-                            <TableCell>
+                            </StyledTableCell>
+                            <StyledTableCell>
                                 <TextField
                                     id="volume-number"
                                     label="Volume"
@@ -212,14 +242,19 @@ class Calculator extends React.Component {
                                     onChange={this.handleVolumeChange.bind(this)}
                                     variant="outlined"
                                     />
-                                </TableCell>
-                            <TableCell align="right">
-                                <AddCircleOutlineRoundedIcon 
+                                </StyledTableCell>
+                            <StyledTableCell>
+                                <h2>Price: {this.state.selectedPrice ? this.state.selectedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "loading.."} (ISK)</h2>
+                            </StyledTableCell>
+                            <StyledTableCell align="right">
+                                <Button 
                                     aria-label="Add item"
+                                    variant="outlined"
                                     size="small"
+                                    color="primary"
                                     onClick={this.addItem.bind(this)}
-                                />
-                            </TableCell>
+                                >Add</Button>
+                            </StyledTableCell>
                         </TableRow>
                     </TableBody>
                 </Table>

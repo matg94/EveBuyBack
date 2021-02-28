@@ -21,15 +21,6 @@ const StyledTableCell = withStyles((theme) => ({
       fontSize: 14,
     },
   }))(TableCell);
-  
-  const StyledTableRow = withStyles((theme) => ({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  }))(TableRow);
-
 
 
 class DataTable extends React.Component {
@@ -59,7 +50,7 @@ class DataTable extends React.Component {
                         </TableHead>
                         <TableBody>
                           {this.state.itemNames.map((name) => 
-                            <GraphRow key={name} addItemFunction={this.addItemFunction.bind(this)} itemName={name} date={this.state.currentDate}></GraphRow>
+                            <GraphRow key={name} itemName={name} date={this.state.currentDate}></GraphRow>
                           )}
                         </TableBody>
                     </Table>
